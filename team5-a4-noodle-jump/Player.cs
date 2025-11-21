@@ -29,10 +29,12 @@ namespace team5_a4_noodle_jump
 
             Draw.Square(position, squareSize);
 
-            if (Input.IsKeyboardKeyPressed(KeyboardInput.Space))
+            /*
+            if (platformCollided == true && velocity > 0))
             {
                 yVelocity *= -1; yVelocity -= 2;
             }
+            */
         }
     }
 }
