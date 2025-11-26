@@ -13,7 +13,7 @@ namespace MohawkGame2D
     {
         // Place your variables here:
         Player player = new Player();
-
+        Texture2D background;
         /// <summary>
         ///     Setup runs once before the game loop begins.
         /// </summary>
@@ -21,6 +21,7 @@ namespace MohawkGame2D
         {
             Window.SetSize(400, 600);
             Window.SetTitle("Noodle Jump!");
+            background = Graphics.LoadTexture("../../../assets/graphics/backgroundnoodle.png");
         }
 
         /// <summary>
@@ -28,9 +29,10 @@ namespace MohawkGame2D
         /// </summary>
         public void Update()
         {
-            Window.ClearBackground(Color.OffWhite);
-            player.Update();
-
+            Graphics.Scale = 1;
+            Graphics.Draw(background, 0, 0);
+            Graphics.Scale = 0.2f;
+            player.Update(player.playerSprite);
         }
     }
 

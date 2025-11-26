@@ -1,10 +1,5 @@
 ﻿using MohawkGame2D;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace team5_a4_noodle_jump
 {
@@ -17,7 +12,10 @@ namespace team5_a4_noodle_jump
         float gravityForce = 0f;
         float fallingTime = Time.DeltaTime;
         public float playerScore = 0f;
-        public void Update()
+
+        public Texture2D playerSprite = Graphics.LoadTexture("../../../assets/graphics/character.png");
+
+        public void Update(Texture2D squareSprite)
         {
             position.X = Input.GetMouseX() - squareSize / 2;
 
@@ -32,14 +30,18 @@ namespace team5_a4_noodle_jump
             yVelocity += gravityForce;
             position.Y += yVelocity;
 
-            Draw.Square(position, squareSize);
+            Graphics.Draw(squareSprite, position);
 
+            //draw score and make score go up if player is going up
             if (yVelocity < 0f)
             {
                 playerScore++;
             }
+            Text.Color = Color.White;
             Text.Draw($"{playerScore}", 0, 0);
 
+
+            //code for when platforms are merged in
             /*
             if (platformCollided == true && velocity > 0))
             {
