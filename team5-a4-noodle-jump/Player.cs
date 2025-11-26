@@ -15,19 +15,30 @@ namespace team5_a4_noodle_jump
         float yVelocity = 0f;
         float gravity = 10f;
         float gravityForce = 0f;
+        float fallingTime = Time.DeltaTime;
+        public float playerScore = 0f;
         public void Update()
         {
             position.X = Input.GetMouseX() - squareSize / 2;
 
-            if (position.Y + squareSize * 1.1f <= 600)
+            if (Input.IsKeyboardKeyReleased(KeyboardInput.Space))
             {
-                
+                fallingTime = 0;
+                gravityForce = 0;
+                yVelocity *= -1;
             }
-            gravityForce = gravity * Time.DeltaTime;
+            fallingTime = Time.DeltaTime;
+            gravityForce = gravity * fallingTime;
             yVelocity += gravityForce;
             position.Y += yVelocity;
 
             Draw.Square(position, squareSize);
+
+            if (yVelocity < 0f)
+            {
+                playerScore++;
+            }
+            Text.Draw($"{playerScore}", 0, 0);
 
             /*
             if (platformCollided == true && velocity > 0))
