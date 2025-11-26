@@ -4,9 +4,9 @@ namespace team5_a4_noodle_jump
 {
     internal class BGM
     {
-        public static Music bgm1 = Audio.LoadMusic("../../../assets/graphics/BGM1.mp3");
-        public static Music bgm2 = Audio.LoadMusic("../../../assets/graphics/BGM2.mp3");
-        public static Music bgm3 = Audio.LoadMusic("../../../assets/graphics/BGM3.mp3");
+        public static Music bgm1 = Audio.LoadMusic("../../../assets/music/BGM1.mp3");
+        public static Music bgm2 = Audio.LoadMusic("../../../assets/music/BGM2.mp3");
+        public static Music bgm3 = Audio.LoadMusic("../../../assets/music/BGM3.mp3");
         public float bgm1Length = Audio.GetMusicLength(bgm1);
         public float bgm2Length = Audio.GetMusicLength(bgm2);
 
