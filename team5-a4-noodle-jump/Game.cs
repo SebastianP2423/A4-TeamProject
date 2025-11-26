@@ -13,6 +13,7 @@ namespace MohawkGame2D
     {
         // Place your variables here:
         Player player = new Player();
+        BGM bgm = new BGM();
 
         /// <summary>
         ///     Setup runs once before the game loop begins.
@@ -29,8 +30,8 @@ namespace MohawkGame2D
         public void Update()
         {
             Window.ClearBackground(Color.OffWhite);
+            bgm.BGMPlay();
             player.Update();
-
         }
     }
 
