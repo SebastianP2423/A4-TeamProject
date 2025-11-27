@@ -18,8 +18,8 @@ namespace team5_a4_noodle_jump
 
         public void Update(Texture2D squareSprite)
         {
-            //x position follows mouse, sprite width divided by 2 so the sprite is centered
-            position.X = Input.GetMouseX() - squareSprite.Width / 2;
+            //x position follows mouse
+            position.X = Input.GetMouseX() - (squareSprite.Width / 5 / 2);
 
             //this is the stuff that makes gravity work
             fallingTime = Time.DeltaTime;
