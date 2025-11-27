@@ -36,15 +36,12 @@ namespace team5_a4_noodle_jump
             }
             Text.Color = Color.White;
             Text.Draw($"{playerScore}", 0, 0);
-
-
-            //code for when platforms are merged in
-            /*
-            if (platformCollided == true && velocity > 0))
-            {
-                yVelocity *= -1; yVelocity -= 2; fallingTime = 0;
-            }
-            */
         }
+
+        public void Bounce()
+        {
+            yVelocity *= -1; yVelocity -= 2; fallingTime = 0;
+        }
+
     }
 }
