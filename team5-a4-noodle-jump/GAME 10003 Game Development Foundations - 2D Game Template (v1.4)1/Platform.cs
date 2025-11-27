@@ -1,131 +1,115 @@
 ﻿using System;
 using System.Numerics;
 
-
-    namespace MohawkGame2D
+namespace MohawkGame2D
+{
+    public class Platform
     {
-        public class Platform
+        public const float DefaultWidth = 80f;
+        public const float DefaultHeight = 20f;
+
+         public Vector2 Position;
+        public Vector2 Size;
+
+        public Vector2 Velocity = Vector2.Zero;
+
+        // Moving platforms here 
+        public bool IsMoving = false;
+        public float MoveSpeed = 50f;
+        public float MoveDistance = 50f;
+
+        private float moveTimer = 0f;
+        private Vector2 moveOrigin;
+
+        // Scrolling speed here
+        public float ScrollSpeed = -100f;
+
+        // Breakable platforms here
+        public bool IsBroken = false;
+        public float BreakDuration = 0.4f;
+        private float breakTimer = 0f;
+
+        public Platform()
         {
-            public Vector2 Position;
-            public Vector2 Size;
-            public Vector2 Velocity = Vector2.Zero;
+            Position = new Vector2(160, 450);
+            Size = new Vector2(DefaultWidth, DefaultHeight);
+            moveOrigin = Position;
+        }
 
-            // Variables for the moving platforms
-            public bool IsMoving = false;
-            public float MoveSpeed = 2f;
-            public float MoveDistance = 60f;
-            private float moveTimer = 0f;
+        public Platform(float x, float y)
+        {
+            Position = new Vector2(x, y);
+            Size = new Vector2(DefaultWidth, DefaultHeight);
+            moveOrigin = Position;
+        }
 
-            // Scrolling
-            public float ScrollSpeed = -100f;
+        public Platform(float x, float y, float width, float height)
+        {
+            Position = new Vector2(x, y);
+            Size = new Vector2(width, height);
+            moveOrigin = Position;
+        }
 
-            // Variables for the breakable platforms
-            public bool IsBreakable = false;      // set externally
-            public bool IsBroken = false;         // becomes true after the player lands on it
-            public float BreakDuration = 0.4f;    // timer before platform breaks or disapears
-            private float breakTimer = 0f;
+        public float Left => Position.X;
+        public float Right => Position.X + Size.X;
+        public float Top => Position.Y;
+        public float Bottom => Position.Y + Size.Y;
 
-            private Vector2 startPos;
-
-            public Platform(float x, float y, float width, float height)
+        public void Update(float deltaTime)
+        {
+            // So that broken platforms fall
+            if (IsBroken)
             {
-                Position = new Vector2(x, y);
-                Size = new Vector2(width, height);
-                startPos = Position;
+                breakTimer += deltaTime;
+                if (breakTimer >= BreakDuration)
+                {
+                    // Platforms go off screen to disapear
+                    Position = new Vector2(-9999, -9999);
+                    return;
+                }
             }
 
-            public float Left => Position.X;
-            public float Right => Position.X + Size.X;
-            public float Top => Position.Y;
-            public float Bottom => Position.Y + Size.Y;
+            // Camera scrolling so they keep moving up
+            Vector2 scroll = new Vector2(0, ScrollSpeed * deltaTime);
+            Position += scroll;
+            moveOrigin += scroll;
 
-            public void Update(float deltaTime)
+            // Moving platform oscillation
+            if (IsMoving)
             {
-                // Handle break timer
-                if (IsBroken)
-                {
-                    breakTimer += deltaTime;
-                    if (breakTimer >= BreakDuration)
-                    {
-                        // Move platform far offscreen to "delete" it
-                        Position = new Vector2(-9999, -9999);
-                    }
-                }
-
-                // Scroll up
-                Position += new Vector2(0, ScrollSpeed * deltaTime);
-                startPos += new Vector2(0, ScrollSpeed * deltaTime);
-
-                // Horizontal moving platform
-                if (IsMoving)
-                {
-                    moveTimer += deltaTime * MoveSpeed;
-                    float xOffset = (float)Math.Sin(moveTimer) * MoveDistance;
-                    Position = new Vector2(startPos.X + xOffset, Position.Y);
-                }
-
-                // External velocity
-                Position += Velocity * deltaTime;
+                moveTimer += deltaTime * MoveSpeed;
+                float xOffset = (float)Math.Sin(moveTimer) * MoveDistance;
+                Position = new Vector2(moveOrigin.X + xOffset, Position.Y);
             }
 
-            public void Draw()
-            {
-                if (IsBreakable)
-                {
-                    if (IsBroken)
-                    {
-                        // Cracked platform color (placeholder)
-                        Draw.FillColor = Color.Gray;
-                        Draw.LineColor = Color.Black;
-                    }
-                    else
-                    {
-                        // Placeholder platform colors 
-                        Draw.FillColor = Color.Yellow;
-                        Draw.LineColor = Color.Red;
-                    }
-                }
-                else
-                {
-                    // Normal or moving platform
-                    Draw.FillColor = IsMoving ? Color.Green : Color.Red;
-                    Draw.LineColor = Draw.FillColor;
-                }
+            // Any external velocity applied just in case
+            Position += Velocity * deltaTime;
+        }
 
-                Draw.LineSize = 2;
-                Draw.Rectangle(Position, Size);
-            }
+        public void Draw()
+        {
+            // Green = moving | Red = normal
+            Draw.FillColor = IsMoving ? Color.Green : Color.Red;
+            Draw.LineColor = Color.Black;
+            Draw.LineSize = 2;
 
-            public bool CheckLanding(Vector2 playerPos, Vector2 playerSize, Vector2 playerVelocity)
-            {
-                float pLeft = playerPos.X;
-                float pRight = playerPos.X + playerSize.X;
-                float pBottom = playerPos.Y + playerSize.Y;
+            Draw.Rectangle(Position, Size);
+        }
+            // Player landing on platform (logic)
+        public bool CheckLanding(Vector2 playerPos, Vector2 playerSize, Vector2 playerVelocity)
+        {
+            float pLeft = playerPos.X;
+            float pRight = playerPos.X + playerSize.X;
+            float pBottom = playerPos.Y + playerSize.Y;
 
-                bool horizontallyAligned = pRight > Left && pLeft < Right;
-                bool movingDown = playerVelocity.Y > 0;
+            bool horizontallyAligned = pRight > Left && pLeft < Right;
+            bool movingDown = playerVelocity.Y > 0;
 
-                bool crossingTop =
-                    pBottom <= Top &&
-                    pBottom + playerVelocity.Y >= Top;
+            bool crossingTop =
+                pBottom <= Top &&
+                pBottom + playerVelocity.Y >= Top;
 
-                bool landed = horizontallyAligned && movingDown && crossingTop;
-
-                // If the player lands on a breakable platform it breaks 
-                if (IsBreakable && landed)
-                {
-                    IsBroken = true;
-                    breakTimer = 0f;
-                }
-
-                return landed && !IsBroken;
-            }
+            return horizontallyAligned && movingDown && crossingTop;
         }
     }
-
-
-
-
-
-
-
+}
