@@ -6,12 +6,16 @@ namespace team5_a4_noodle_jump
 {
     public class Platform
     {
+        // art for the platforms 
+
+        public Texture2D badPlatform = Graphics.LoadTexture("../../../assets/graphics/noodle broken.png");
+        public Texture2D goodPlatform = Graphics.LoadTexture("../../../assets/graphics/noodle fixed.png");
+
         public const float DefaultWidth = 80f;
         public const float DefaultHeight = 20f;
 
         public Vector2 Position;
         public Vector2 Size;
-
         public Vector2 Velocity = Vector2.Zero;
 
         // Moving platforms here 
@@ -29,20 +33,6 @@ namespace team5_a4_noodle_jump
         public bool IsBroken = false;
         public float BreakDuration = 0.4f;
         private float breakTimer = 0f;
-
-        public Platform()
-        {
-            Position = new Vector2(160, 450);
-            Size = new Vector2(DefaultWidth, DefaultHeight);
-            moveOrigin = Position;
-        }
-
-        public Platform(float x, float y)
-        {
-            Position = new Vector2(x, y);
-            Size = new Vector2(DefaultWidth, DefaultHeight);
-            moveOrigin = Position;
-        }
 
         public Platform(float x, float y, float width, float height)
         {
@@ -96,6 +86,7 @@ namespace team5_a4_noodle_jump
 
             Draw.Rectangle(Position, Size);
         }
+
         // Player landing on platform (logic)
         public bool CheckLanding(Vector2 playerPos, Vector2 playerSize, Vector2 playerVelocity)
         {
