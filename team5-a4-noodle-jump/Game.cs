@@ -22,6 +22,7 @@ namespace MohawkGame2D
             platforms.Add(new Platform(150, 500, Platform.DefaultWidth, Platform.DefaultHeight));
             platforms.Add(new Platform(70, 350, Platform.DefaultWidth, Platform.DefaultHeight));
             platforms.Add(new Platform(220, 200, Platform.DefaultWidth, Platform.DefaultHeight));
+            platforms.Add(new Platform(200, 600, Platform.DefaultWidth, Platform.DefaultHeight));
 
             // Example moving platform
             platforms[1].IsMoving = true;
@@ -36,6 +37,11 @@ namespace MohawkGame2D
             {
                 p.Update(Time.DeltaTime);
                 p.PlatformDraw();
+
+                if (p.CheckLanding(player.position, player.playerSpriteSize, player.yVelocity) == true)
+                {
+                    player.Bounce();
+                }
             }
 
             // Platform deletion off screen 
@@ -43,7 +49,7 @@ namespace MohawkGame2D
 
             // Draws plus updates player 
             Graphics.Scale = 0.2f;
-            player.Update(player.playerSprite);
+            player.Update();
 
             bgm.BGMPlay();
         }

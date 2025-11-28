@@ -20,8 +20,8 @@ namespace team5_a4_noodle_jump
 
         // Moving platforms here 
         public bool IsMoving = false;
-        public float MoveSpeed = 50f;
-        public float MoveDistance = 50f;
+        public float MoveSpeed = 5f;
+        public float MoveDistance = 75f;
 
         private float moveTimer = 0f;
         private Vector2 moveOrigin;
@@ -79,27 +79,37 @@ namespace team5_a4_noodle_jump
 
         public void PlatformDraw()
         {
+            /*
             // Green = moving | Red = normal
             Draw.FillColor = IsMoving ? Color.Green : Color.Red;
             Draw.LineColor = Color.Black;
             Draw.LineSize = 2;
+            */
 
-            Draw.Rectangle(Position, Size);
+            Graphics.Scale = 0.25f;
+            if (IsMoving == false)
+            {
+                Graphics.Draw(badPlatform, Position);
+            }
+            else
+            {
+                Graphics.Draw(goodPlatform, Position);
+            }
         }
 
         // Player landing on platform (logic)
-        public bool CheckLanding(Vector2 playerPos, Vector2 playerSize, Vector2 playerVelocity)
+        public bool CheckLanding(Vector2 playerPos, Vector2 playerSize, float playerYVelocity)
         {
             float pLeft = playerPos.X;
             float pRight = playerPos.X + playerSize.X;
             float pBottom = playerPos.Y + playerSize.Y;
 
             bool horizontallyAligned = pRight > Left && pLeft < Right;
-            bool movingDown = playerVelocity.Y > 0;
+            bool movingDown = playerYVelocity > 0;
 
             bool crossingTop =
-                pBottom <= Top &&
-                pBottom + playerVelocity.Y >= Top;
+                pBottom < Top &&
+                pBottom + playerYVelocity >= Top;
 
             return horizontallyAligned && movingDown && crossingTop;
         }
