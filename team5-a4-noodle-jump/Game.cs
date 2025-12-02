@@ -19,10 +19,10 @@ namespace MohawkGame2D
             Window.SetTitle("Noodle Jump!");
 
             // Creates starter platforms for when game first starts
-            platforms.Add(new Platform(150, 500, Platform.DefaultWidth, Platform.DefaultHeight));
-            platforms.Add(new Platform(70, 350, Platform.DefaultWidth, Platform.DefaultHeight));
-            platforms.Add(new Platform(220, 200, Platform.DefaultWidth, Platform.DefaultHeight));
-            platforms.Add(new Platform(200, 600, Platform.DefaultWidth, Platform.DefaultHeight));
+            platforms.Add(new Platform(150, 500, Platform.DefaultWidth * 0.25f, Platform.DefaultHeight * 0.25f));
+            platforms.Add(new Platform(70, 350, Platform.DefaultWidth * 0.25f, Platform.DefaultHeight * 0.25f));
+            platforms.Add(new Platform(220, 200, Platform.DefaultWidth * 0.25f, Platform.DefaultHeight * 0.25f));
+            platforms.Add(new Platform(200, 600, Platform.DefaultWidth * 0.25f, Platform.DefaultHeight * 0.25f));
 
             // Example moving platform
             platforms[1].IsMoving = true;

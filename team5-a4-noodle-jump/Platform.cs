@@ -104,7 +104,7 @@ namespace team5_a4_noodle_jump
             float pRight = playerPos.X + playerSize.X;
             float pBottom = playerPos.Y + playerSize.Y;
 
-            bool horizontallyAligned = pRight > Left && pLeft < Right;
+            bool horizontallyAligned = pRight + 10 > Left && pLeft - 10 < Right;
             bool movingDown = playerYVelocity > 0;
 
             bool crossingTop =
