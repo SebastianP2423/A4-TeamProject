@@ -15,7 +15,9 @@ namespace team5_a4_noodle_jump
         public float playerScore = 0f;
 
         public static Texture2D playerSprite = Graphics.LoadTexture("../../../assets/graphics/character.png");
-        public Vector2 playerSpriteSize = new Vector2(playerSprite.Width, playerSprite.Height);
+        public static Vector2 rawPlayerSpriteSize = new Vector2(playerSprite.Width, playerSprite.Height);
+        public static Vector2 playerSpriteSizeScale = new Vector2(0.2f, 0.2f);
+        public Vector2 realPlayerSpriteSize = rawPlayerSpriteSize * playerSpriteSizeScale;
 
         public void Update()
         {

@@ -38,7 +38,7 @@ namespace MohawkGame2D
                 p.Update(Time.DeltaTime);
                 p.PlatformDraw();
 
-                if (p.CheckLanding(player.position, player.playerSpriteSize, player.yVelocity) == true)
+                if (p.CheckLanding(player.position, player.realPlayerSpriteSize, player.yVelocity) == true)
                 {
                     player.Bounce();
                 }
